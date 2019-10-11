@@ -37,7 +37,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie deleteMovie(int movieId) throws MovieNotFoundException, Exception {
         if(movieRepository.existsById(movieId))
         {
-            Movie tmovie = movieRepository.getOne(movieId);
+            Movie tmovie = movieRepository.findById(movieId).get();
             movieRepository.deleteById(movieId);
             return tmovie;
         }
