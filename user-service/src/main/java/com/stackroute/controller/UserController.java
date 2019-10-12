@@ -14,29 +14,30 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/v1/user-service")
 public class UserController {
-  UserService userService;
-  @Autowired
+    UserService userService;
+
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @PostMapping("user")
-    public ResponseEntity<?> saveUser(@RequestBody User user){
+    public ResponseEntity<?> saveUser(@RequestBody User user) {
         ResponseEntity responseEntity;
         try {
             userService.saveUser(user);
             responseEntity = new ResponseEntity<String>("Successfully Created", HttpStatus.CREATED);
         } catch (UserAlreadyExistException e) {
-            responseEntity = new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-            }
-       return responseEntity;
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+        return responseEntity;
     }
+
     @GetMapping("users")
-    public ResponseEntity<?>getAllUser(){
+    public ResponseEntity<?> getAllUser() {
 
-      return new ResponseEntity<List<User>>(userService.getAllUser() , HttpStatus.OK);
+        return new ResponseEntity<List<User>>(userService.getAllUser(), HttpStatus.OK);
     }
-
-
 
 
 }
