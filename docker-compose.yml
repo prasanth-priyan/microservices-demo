@@ -12,7 +12,7 @@
        MYSQL_ROOT_PASSWORD: root
        MYSQL_USER: root-app
        MYSQL_PASSWORD: root123
-       MYSQL_CI_URL: jdbc:mysql://localhost:3306/movieDb
+       MYSQL_CI_URL: jdbc:mysql://localhost:3306/movieDb?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
 
 
    mongodb:
