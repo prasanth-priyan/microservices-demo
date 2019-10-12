@@ -1,0 +1,62 @@
+ version: '3'
+ services:
+   mysql-docker:
+     image: mysql
+     container_name: mysql-docker
+     environment:
+       - MYSQL_ROOT_PASSWORD:root
+
+   mongodb:
+     image: mongo:3.4-xenial
+     container_name: mongodb
+
+   eureka:
+     build: eureka-server/
+     container_name: eureka
+     ports:
+       - 8761:8761
+
+   config-server:
+     build: config-server/
+     container_name: config-server
+
+   movie-zuul:
+     build: movie-zuul/
+     restart: always
+     container_name: movie-zuul
+     depends_on:
+       - movie-service
+       - user-service
+     links:
+       - movie-service
+       - user-service
+     ports:
+       - 8080:8080
+
+   movie-service:
+     build: movie-service/
+     restart: always
+     container_name: movie-service
+     depends_on:
+       - mongodb
+       - config-server
+       - eureka
+     links:
+       - mongodb
+       - eureka
+       - config-server
+
+   user-service:
+     build: user-service/
+     restart: always
+     container_name: user-service
+     depends_on:
+       - mysql-docker
+       - config-server
+       - eureka
+     links:
+       - mysql-docker
+       - config-server
+       - eureka
+
+
